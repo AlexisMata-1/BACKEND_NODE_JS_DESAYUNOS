@@ -1,8 +1,6 @@
 import { getConnection, sql } from '../database/conection.js';
 
 
-
-
 /////////////////////////////////////LOGIN USUARIOS////////////////////////////////////////////
 export const loginByEmail = async (req, res) => {
     const { email, pass, } = req.body
