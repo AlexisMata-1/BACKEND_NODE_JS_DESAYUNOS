@@ -1,3 +1,4 @@
+import { json } from 'express';
 import { getConnection, sql } from '../database/conection.js';
 
 /////////////////////////////////////GET USUARIO////////////////////////////////////////////
@@ -22,11 +23,8 @@ export const createNewUser = async (req, res) => {
         is_active
     } = req.body
     if (first_name == null || last_name == null || email == null || pass == null) {
-
         return res.status(400).json({ msg: 'BadRequest. Llena los campos faltantes' })
     } else {
-
-
         const pool = await getConnection();
         let result1 = await pool
             .request()
@@ -35,11 +33,9 @@ export const createNewUser = async (req, res) => {
 
         if (result1.recordset[0] != null) {
 
-            res.json({ msg: 'Correo existente ' })
+            res.json({ msg: 'Correo existente' })
 
         } else {
-
-
             const pool = await getConnection();
             await pool.request()
                 .input("id_user_type", sql.Int, id_user_type)
@@ -50,7 +46,8 @@ export const createNewUser = async (req, res) => {
                 .input("pass", sql.VarChar, pass)
                 .input("is_active", sql.Bit, is_active)
                 .query('INSERT INTO Users (id_user_type, first_name, last_name, dob, email, pass, is_active) VALUES (@id_user_type, @first_name, @last_name, @dob, @email, @pass, @is_active)');
-            return res.status(204)
+            
+                return res.status(200).json({msg:'Usuario registrado exitosamente'})
 
         }
     }
@@ -147,5 +144,5 @@ export const updateUserById = async (req, res) => {
         .input('id', sql.Int, id)
         .query('UPDATE Users SET id_user_type= @id_user_type, first_name = @first_name, last_name= @last_name, dob=@dob, is_active = @is_active WHERE id_user= @id');
 
-    res.json({ first_name, last_name, dob, email });
+   return res.status(200).json({msg: 'Usuario Cambiado con éxito'})
 };
