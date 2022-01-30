@@ -70,7 +70,7 @@ export const getDomainByName = async (req, res) => {
         const result = await pool
             .request()
             .input('domain', sql.VarChar, domain)
-            .query('SELECT * FROM Domains WHERE domain=@domain and is_active=1');
+            .query('SELECT * FROM Domains WHERE domain=@domain');
 
         res.json(result.recordset);
 
