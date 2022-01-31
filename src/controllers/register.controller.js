@@ -51,7 +51,7 @@ export const createNewRegister = async (req, res) => {
                 .input("date", sql.Date, date)
                 .query('INSERT INTO RegisterDay (id_user, confirmed_assist, date) VALUES (@id_user, @confirmed_assist, @date)');
 
-            return res.status(200).json({ msg: "Registrado exitosamente por priemra vez" });
+            return res.status(200).json({ msg: "Registrado exitosamente por primera vez" });
 
         }
 
@@ -139,6 +139,16 @@ export const updateRegisterById = async (req, res) => {
         return res.status(400).json({ msg: "Bad Request. LLena los campos faltantes" });
     }
     const pool = await getConnection();
+    let result1 = await pool.request()
+        .input("id_user", sql.Int, id_user)
+        .input("confirmed_assist", sql.Bit, confirmed_assist)
+        .input("date", sql.Date, date)
+        .query('SELECT * FROM  RegisterDay WHERE id_user=@id_user and date = @date');
+
+    if(result1.recordset[0]==null || result1.recordset[0].confirmed_assist==0){
+        return res.json({msg: "No estas registrado en este dia"})
+    }else{
+ const pool = await getConnection();
     await pool
         .request()
         .input('confirmed_assist', sql.Bit, confirmed_assist)
@@ -147,6 +157,14 @@ export const updateRegisterById = async (req, res) => {
         .query('UPDATE RegisterDay SET confirmed_assist= @confirmed_assist WHERE date=@date and id_user =@id_user  ');
 
     return res.status(200).json({ msg: "Ok. Confirmacion cancelada a este dia " });
+
+    }
+
+
+
+
+
+   
 };
 
 /////////////////////////////////////////////////////////////////////////////////
