@@ -9,6 +9,15 @@ export const getDomains = async (req, res) => {
     res.json(result.recordset)
 }
 
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+export const getDomains2 = async (req, res) => {
+
+    const pool = await getConnection();
+    const result = await pool.request().query('SELECT * FROM Domains');
+    res.json(result.recordset)
+}
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -35,7 +44,7 @@ export const createNewDomain = async (req, res) => {
 
 
 
-////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////BORRAR DOMINIO//////////////////////////////////////////////////
 
 export const updateDomainById = async (req, res) => {
 
@@ -58,7 +67,31 @@ export const updateDomainById = async (req, res) => {
 
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////ACTUALIZAR DOMINIO//////////////////////////////////////////////////
+
+export const updateDomainById2 = async (req, res) => {
+
+
+    const {
+        domain,
+        is_active
+    } = req.body
+    const { id } = req.params;
+
+
+    const pool = await getConnection();
+    const result = await pool.request()
+        .input('id', sql.Int, id)
+        .input('domain', sql.VarChar, domain)
+        .input('is_active', sql.Bit, is_active)
+        .query('UPDATE Domains set is_active=1 WHERE id_domain=@id');
+
+    return res.status(200).json({ msg: 'Dominio actualizado con éxito' })
+
+}
+
+////////////////////////////////////////SELECT DE DOMINIO EN ESPECIFICO PARA AGREGAR Y QUE NO SE REPITA////////////////////////////////////////////////////
 
 
 export const getDomainByName = async (req, res) => {
