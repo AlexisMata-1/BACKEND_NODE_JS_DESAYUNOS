@@ -142,7 +142,7 @@ export const updateUserById = async (req, res) => {
         .input("email", sql.VarChar, email)
         .input("pass", sql.VarChar, pass)
         .input("is_active", sql.Bit, is_active)
-        .query('UPDATE Users SET id_user_type= @id_user_type, first_name = @first_name, last_name= @last_name, is_active= @is_active ,dob=@dob WHERE id_user= @id');
+        .query('UPDATE Users SET id_user_type= @id_user_type, last_name= @last_name, is_active= @is_active ,dob=@dob WHERE id_user= @id');
 
    return res.status(200).json({msg: 'Usuario Cambiado con éxito'})
 };
