@@ -85,7 +85,7 @@ export const getRegisterByDate = async (req, res) => {
         const result = await pool
             .request()
             .input('date', sql.Date, date)
-            .query(" SELECT  first_name, last_name, confirmed_assist FROM Users FULL OUTER JOIN RegisterDay ON Users.id_user= RegisterDay.id_user WHERE cast(date as date) = @date and confirmed_assist=1");
+            .query(" SELECT  first_name, last_name, email, confirmed_assist FROM Users FULL OUTER JOIN RegisterDay ON Users.id_user= RegisterDay.id_user WHERE cast(date as date) = @date ");
         res.json(result.recordset);
 
     } catch (error) {
