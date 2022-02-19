@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { getRegister, createNewRegister, getRegisterByDate, updateRegisterById } from '../controllers/register.controller.js'
+import { getRegister, createNewRegister, getRegisterByDate,getRegisterByDate2, updateRegisterById } from '../controllers/register.controller.js'
 
 const router = Router()
 
@@ -10,9 +10,11 @@ router.get('/Registers', getRegister)
 //CREAR NUEVO REGISTRO
 router.post('/Registers', createNewRegister)
 
-//CONSULTAR REGISTR POR FECHA
+//CONSULTAR REGISTR POR FECHA EN CALENDARIO
 router.post("/Register/", getRegisterByDate)
 
+//CONSULTAR REGISTR POR FECHA EN REPORTES
+router.post("/Registerr/", getRegisterByDate2)
 
 // //CONTAR TOTAL DE REGISTROS REGISTRADOS EN BASE DE DATOS
 // router.get('/Registers/count', getTotalRegister)
